@@ -1,4 +1,5 @@
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Area } from "./Area.js";
 
 
 

@@ -7,13 +7,14 @@ import { tr } from "zod/locales";
 
 export const AppDataSource = new DataSource({
 
-    type: "postgres",
-    host: "localhost",
-    port: 5432,
-    username: "postgres",
-    password: "123",
-    database: "postgres",
+    type: 'postgres',
+    host: process.env.DB_HOST as string,
+    port: Number(process.env.DB_PORT),
+    username: process.env.DB_USER as string,
+    password: process.env.DB_PASS as string,
+    database: process.env.DB_NAME as string,
+
     entities: ['src/entities/**/*.ts'],
     synchronize: true,
-    logging: false,
+    logging: false
 });
