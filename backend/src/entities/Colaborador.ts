@@ -1,5 +1,6 @@
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Area } from "./Area.js";
+import { RegistroAcesso } from "./RegistroAcesso.js";
 
 
 
@@ -28,4 +29,11 @@ export class Colaborador{
     
     @OneToMany(() => Area, (areas) => areas.responsavel_id)
     areas!: Area[];
+
+    @OneToMany(()=> RegistroAcesso, (colaborador_id)=> colaborador_id.colaborador_id)
+    registro_acessos!: RegistroAcesso[];
+
+    @OneToMany(()=> RegistroAcesso, (registrado_por)=> registrado_por.registrado_por)
+    registros_feitos!: RegistroAcesso[];
+
 }
