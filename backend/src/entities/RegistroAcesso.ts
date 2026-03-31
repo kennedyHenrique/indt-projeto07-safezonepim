@@ -11,11 +11,11 @@ export class RegistroAcesso {
     @PrimaryGeneratedColumn("uuid")
     id_registro!: string;
 
-    @ManyToOne(()=> Colaborador, (colaborador_id)=>colaborador_id.registro_acessos)
-    colaborador_id!: Colaborador;
+    @ManyToOne(()=> Colaborador, (id_colaborador)=>id_colaborador.registro_acessos)
+    id_colaborador!: Colaborador;
 
-    @ManyToOne(()=> Area, (area_id)=> area_id.registro_acessos)
-    area_id!: Area;
+    @ManyToOne(()=> Area, (id_area)=> id_area.registro_acessos)
+    id_area!: Area;
 
     @Column({type:'enum', enum: Tipo})
     tipo!: Tipo;
@@ -27,9 +27,10 @@ export class RegistroAcesso {
     timestamp!: Date;
     
 
-    @ManyToOne(()=> Colaborador, (registrado_por)=>registrado_por.registros_feitos)
+    @ManyToOne(()=> Colaborador, (id_colaborador)=>id_colaborador.registros_feitos)
     registrado_por!: Colaborador;
 
     @Column({type:'varchar', nullable: true})
-    oservacao!: string;
+    observacao!: string;
+    colaborador_id: any;
 }

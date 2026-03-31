@@ -22,10 +22,10 @@ export class Area{
     @Column({type: 'int', nullable: false})
     capacidade!: number;
 
-    @ManyToOne( ()=> Colaborador, (responsavel_id) => responsavel_id.areas)
-    responsavel_id!: Colaborador;
+    @ManyToOne( ()=> Colaborador, (id_responsavel) => id_responsavel.areas)
+    id_responsavel!: Colaborador;
 
-    @OneToMany(()=> RegistroAcesso, (area_id)=> area_id.area_id)
+    @OneToMany(()=> RegistroAcesso, (id_area)=> id_area.id_area)
     registro_acessos!: RegistroAcesso[];
 
     @Column({type: 'bool', default: true})

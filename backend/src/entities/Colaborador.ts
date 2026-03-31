@@ -7,13 +7,16 @@ import { RegistroAcesso } from "./RegistroAcesso.js";
 @Entity('Colaborador')
 export class Colaborador{
     @PrimaryGeneratedColumn("uuid")
-    id_user!: string;
+    id_colaborador!: string;
     
     @Column({type: 'varchar', nullable: false})
     nome!: string;
 
     @Column({type: 'varchar', nullable: false, unique: true})
     matricula!: string;
+
+    @Column({type:'varchar', nullable:false})
+    cargo: string;
 
     @Column({type:'varchar', nullable:false})
     setor!: string;
@@ -27,7 +30,7 @@ export class Colaborador{
     @CreateDateColumn({type: "timestamptz"})
     criado_em!: Date;
     
-    @OneToMany(() => Area, (areas) => areas.responsavel_id)
+    @OneToMany(() => Area, (areas) => areas.id_responsavel)
     areas!: Area[];
 
     @OneToMany(()=> RegistroAcesso, (colaborador_id)=> colaborador_id.colaborador_id)
