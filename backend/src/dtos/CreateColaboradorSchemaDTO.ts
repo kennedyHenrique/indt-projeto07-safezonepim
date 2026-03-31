@@ -13,8 +13,10 @@ export const createColaboradorSchemaDTO = z.object({
         hostname: (/^([a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$/)
     }).nullable(),
     criado_em: z.coerce.date(),
-})
+    areas: z.array(z.string().uuid()),
+    registro_acessos: z.array(z.string().uuid()),
+    })
 
-export const updateSetorSchemaDTO = createColaboradorSchemaDTO.partial()
+export const updateColaboradorSchemaDTO = createColaboradorSchemaDTO.partial()
 export type CreateColaboradorSchemaDTO = z.infer<typeof createColaboradorSchemaDTO>
-export type UpdateSetorSchemaDTO = z.infer<typeof updateSetorSchemaDTO>
+export type UpdateColaboradorSchemaDTO = z.infer<typeof updateColaboradorSchemaDTO>

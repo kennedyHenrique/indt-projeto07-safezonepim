@@ -25,7 +25,7 @@ export class Colaborador{
     ativo!: boolean;
 
     @Column({type:'varchar', nullable:true})
-    foto_url!: string
+    foto_url!: string | null;
 
     @CreateDateColumn({type: "timestamptz"})
     criado_em!: Date;
@@ -33,10 +33,8 @@ export class Colaborador{
     @OneToMany(() => Area, (areas) => areas.id_responsavel)
     areas!: Area[];
 
-    @OneToMany(()=> RegistroAcesso, (colaborador_id)=> colaborador_id.colaborador_id)
+    @OneToMany(()=> RegistroAcesso, (id_colaborador)=> id_colaborador.id_colaborador)
     registro_acessos!: RegistroAcesso[];
 
-    @OneToMany(()=> RegistroAcesso, (registrado_por)=> registrado_por.registrado_por)
-    registros_feitos!: RegistroAcesso[];
 
 }

@@ -9,7 +9,6 @@ export const createRegistroAcessoSchemaDTO = z.object({
     tipo: z.nativeEnum(Tipo),
     autorizado: z.boolean(),
     timestamp: z.string().refine((val) => !isNaN(Date.parse(val)), "Timestamp inválido"),
-    registrado_por: z.string().uuid(),
     observacao: z.string().trim().max(255).nullable()
 })
 

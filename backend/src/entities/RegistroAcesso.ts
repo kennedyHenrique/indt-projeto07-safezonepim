@@ -26,11 +26,8 @@ export class RegistroAcesso {
     @CreateDateColumn({type: "timestamptz", default: () => "CURRENT_TIMESTAMP"})
     timestamp!: Date;
     
-
-    @ManyToOne(()=> Colaborador, (id_colaborador)=>id_colaborador.registros_feitos)
-    registrado_por!: Colaborador;
-
     @Column({type:'varchar', nullable: true})
     observacao!: string;
-    colaborador_id: any;
+
+    //falta uma variavel registrado_por para saber quem fez o registro
 }

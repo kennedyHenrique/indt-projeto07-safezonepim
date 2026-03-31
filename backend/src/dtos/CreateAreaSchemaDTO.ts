@@ -9,8 +9,9 @@ export const createAreaSchemaDTO = z.object({
     descricao: z.string().trim().max(255).nullable(),
     nivel_risco: z.nativeEnum(NivelRisco),
     capacidade: z.number().int().positive(),
-    responsavel_id: z.string().uuid(),
-    ativa: z.boolean().default(true)
+    ativa: z.boolean().default(true),
+    id_responsavel: z.string().uuid(),
+    registro_acessos: z.array(z.string().uuid())
 })
 
 export const updateAreaSchemaDTO = createAreaSchemaDTO.partial()
