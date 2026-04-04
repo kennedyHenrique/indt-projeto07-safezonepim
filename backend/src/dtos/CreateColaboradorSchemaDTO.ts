@@ -2,7 +2,6 @@ import {z} from "zod";
 
 
 export const createColaboradorSchemaDTO = z.object({
-    id_colaborador: z.string().uuid(),
     nome: z.string().trim().min(1).max(100),
     matricula: z.string().trim().length(8, "A matricula deve ter 8 caracteres").regex(/^\d+$/, "A matricula deve conter apenas numeros"),
     cargo: z.string().trim().min(1),

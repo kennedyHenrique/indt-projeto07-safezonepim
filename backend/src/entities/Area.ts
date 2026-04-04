@@ -14,7 +14,7 @@ export class Area{
     nome!: string;
 
     @Column({type: 'varchar', nullable: true})
-    descricao!: string | null;
+    descricao!: string;
 
     @Column({type: 'enum', enum: NivelRisco})
     nivel_risco!: NivelRisco;
@@ -25,10 +25,10 @@ export class Area{
     @ManyToOne( ()=> Colaborador, (colaborador) => colaborador.areas)
     id_responsavel!: Colaborador;
 
-    @OneToMany(()=> RegistroAcesso, (id_area)=> id_area.id_area)
-    registro_acessos!: RegistroAcesso[];
-
     @Column({type: 'bool', default: true})
     ativa!: boolean;
+
+    @OneToMany(()=> RegistroAcesso, (registroAcesso)=> registroAcesso.id_area)
+    registro_acessos!: RegistroAcesso[];
 
 }

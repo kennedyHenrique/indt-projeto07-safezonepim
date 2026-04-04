@@ -1,49 +1,49 @@
 import type { DataSource, Repository } from "typeorm";
 import { Area } from "../entities/Area.js";
 import { AppError } from "../errors/appError.js";
-import type { UpdateAreaSchemaDTO } from "../dtos/CreateAreaSchemaDTO.js";
+import type { CreateAreaSchemaDTO, UpdateAreaSchemaDTO } from "../dtos/CreateAreaSchemaDTO.js";
+import type { Colaborador } from "../entities/Colaborador.js";
+import type { ColaboradorService } from "./ColaboradorService.js";
 
-export class AreaService {
+export default class AreaService {
 
     private areaRepository: Repository<Area>;
-
-    constructor(appDataSource: DataSource) {
-        this.areaRepository = appDataSource.getRepository(Area);
+    private colaboradorService: ColaboradorService;
+    constructor(dataSource: DataSource, colaboradorService: ColaboradorService) {
+        this.areaRepository = dataSource.getRepository(Area);
+        this.colaboradorService = colaboradorService;
     }
 
     async getAll() {
-        return await this.areaRepository.find();
+        return await this.areaRepository.find({
+            relations: { id_responsavel: true, registro_acessos: true }
+        });
     }
 
     async getByIdArea(id: string) {
-        const area = await this.areaRepository.findOneBy({ id_area: id });
-
-        if (!area) {
-            throw new AppError("Area nao encontrada", 404);
-        }
-        return area;
+        return this.areaRepository.findOne({ where: { id_area: id } });
     }
 
     async getByNameArea(nome: string) {
-        const area = await this.areaRepository.findOneBy({ nome: nome });
-
-        if (!area) {
-            throw new AppError("Area nao encontrada", 404);
-        }
-        return area;
+        return this.areaRepository.findOne({ where: { nome: nome } });
     }
 
-    async createArea(data: Area) {
-        const area = await this.getByNameArea(data.nome);
+    async createArea(dataArea: CreateAreaSchemaDTO) {
+        const area = await this.getByNameArea(dataArea.nome);
+        const colaborador = await this.colaboradorService.getById(dataArea.id_responsavel);
+        if (!colaborador) {
+            throw new AppError("Colaborador não encontrado", 404);
+        }
         if (area) {
             throw new AppError("Area já cadastrada", 409);
         }
-        // criando hash de senhas (usar no service colaborador)
-        // data.senha = await bcrypt.hash(data.senha, 8);
+        const updates = Object.fromEntries(
+            Object.entries(dataArea).filter(([, value]) => value !== undefined)
+        ) as Partial<Area>;
 
-        const novaArea = await this.areaRepository.create(data);
-        await this.areaRepository.save(novaArea);
-        return novaArea;
+        updates.id_responsavel = colaborador as Colaborador;
+
+        return await this.areaRepository.save(updates);
     }
 
     async updateArea(id: string, dataArea: UpdateAreaSchemaDTO) {

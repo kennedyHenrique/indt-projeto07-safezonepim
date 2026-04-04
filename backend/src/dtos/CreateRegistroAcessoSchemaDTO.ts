@@ -3,7 +3,6 @@ import { Tipo } from "../types/tipo.js";
 
 
 export const createRegistroAcessoSchemaDTO = z.object({
-    id_registro: z.string().uuid(),
     id_colaborador: z.string().uuid(),
     id_area: z.string().uuid(),
     tipo: z.nativeEnum(Tipo),

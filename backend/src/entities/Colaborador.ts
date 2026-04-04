@@ -16,7 +16,7 @@ export class Colaborador{
     matricula!: string;
 
     @Column({type:'varchar', nullable:false})
-    cargo: string;
+    cargo!: string;
 
     @Column({type:'varchar', nullable:false})
     setor!: string;
@@ -33,7 +33,7 @@ export class Colaborador{
     @OneToMany(() => Area, (areas) => areas.id_responsavel)
     areas!: Area[];
 
-    @OneToMany(()=> RegistroAcesso, (id_colaborador)=> id_colaborador.id_colaborador)
+    @OneToMany(()=> RegistroAcesso, (registro)=> registro.id_colaborador)
     registro_acessos!: RegistroAcesso[];
 
 

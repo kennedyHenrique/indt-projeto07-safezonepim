@@ -1,6 +1,6 @@
 import type { CreateAreaSchemaDTO } from '../dtos/CreateAreaSchemaDTO.js';
 import { AppError } from '../errors/appError.js';
-import { AreaService } from './../services/AreaService.js';
+import AreaService from './../services/AreaService.js';
 import type { Request, Response } from 'express';
 
 
@@ -20,33 +20,33 @@ export default class AreaController {
         });
     }
 
-    async getByIdArea(req: Request, res: Response) {
+    async getById(req: Request, res: Response) {
         const id: string = req.params.id as string;
-        try{  
+        try {
             const area = await this.areaService.getByIdArea(id);
             return res.status(200).json();
         } catch (error) {
-            if(error instanceof AppError)
-            return res.status(error.statusCode).json({ message: error.message});
+            if (error instanceof AppError)
+                return res.status(error.statusCode).json({ message: error.message });
         }
     }
 
-    async createArea(req: Request, res: Response) {
+    async create(req: Request, res: Response) {
         const data = req.body as CreateAreaSchemaDTO;
-        try{
+        try {
             const area = await this.areaService.createArea(data);
             return res.status(201).json({
                 status: "success",
                 data: area
             });
-        }catch(error){
-            if(error instanceof AppError){
-                return res.status(error.statusCode).json({message: error.message});
+        } catch (error) {
+            if (error instanceof AppError) {
+                return res.status(error.statusCode).json({ message: error.message });
             }
         }
     }
 
-    async updateArea(req: Request, res: Response) {
+    async update(req: Request, res: Response) {
         const id: string = req.params.id as string;
         const area = await this.areaService.updateArea(id, req.body);
         return res.status(200).json({

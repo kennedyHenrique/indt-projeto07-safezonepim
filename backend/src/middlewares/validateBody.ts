@@ -1,5 +1,5 @@
 import type { RequestHandler } from "express";
-import type { ZodSchema } from "zod/v3";
+import type { ZodSchema } from "zod";
 import { AppError } from "../errors/appError.js";
 
 
