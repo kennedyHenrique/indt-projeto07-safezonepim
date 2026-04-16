@@ -1,6 +1,8 @@
 import type { DataSource, Repository } from "typeorm";
 import { Colaborador } from "../entities/Colaborador.js";
 import { AppError } from "../errors/appError.js";
+import { error } from "node:console";
+import type { CreateColaboradorSchemaDTO, UpdateColaboradorSchemaDTO } from "../dtos/CreateColaboradorSchemaDTO.js";
 
 
 
@@ -41,16 +43,19 @@ export class ColaboradorService {
         return colaborador;
     }
 
-    async createColaborador (data: Colaborador) {
-        const colaborador = await this.getByMatricula(data.matricula);
+    async createColaborador (data: CreateColaboradorSchemaDTO) {
+        const colaborador = await this.colaboradorRepository.findOneBy({ matricula: data.matricula });
         if (colaborador) {
             throw new AppError("Colaborador já cadastrado", 409);
         }
-        const novoColaborador = await this.colaboradorRepository.create(data);
+        const updates = Object.fromEntries(
+            Object.entries(data).filter(([, value]) => value !== undefined)
+        ) as Partial<Colaborador>;
+        const novoColaborador = await this.colaboradorRepository.create(updates);
         return await this.colaboradorRepository.save(novoColaborador);
     }
 
-    async updateColaborador(id: string, dataColaborador: Colaborador) {
+    async updateColaborador(id: string, dataColaborador: UpdateColaboradorSchemaDTO) {
         const colaborador = await this.getById(id);
         if (!colaborador) {
             throw new AppError("Colaborador não encontrado", 404);

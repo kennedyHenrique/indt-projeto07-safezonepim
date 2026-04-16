@@ -1,17 +1,17 @@
 import type { DataSource, Repository } from "typeorm";
 import { Area } from "../entities/Area.js";
 import { AppError } from "../errors/appError.js";
-import type { CreateAreaSchemaDTO, UpdateAreaSchemaDTO } from "../dtos/CreateAreaSchemaDTO.js";
-import type { Colaborador } from "../entities/Colaborador.js";
+import type { CreateAreaSchemaDTO, UpdateAreaSchemaDTO } from "../dtos/createAreaSchemaDTO.js";
+import { Colaborador } from "../entities/Colaborador.js";
 import type { ColaboradorService } from "./ColaboradorService.js";
 
 export default class AreaService {
 
     private areaRepository: Repository<Area>;
-    private colaboradorService: ColaboradorService;
-    constructor(dataSource: DataSource, colaboradorService: ColaboradorService) {
+    private colaboradorRepository: Repository<Colaborador>;
+    constructor(dataSource: DataSource) {
         this.areaRepository = dataSource.getRepository(Area);
-        this.colaboradorService = colaboradorService;
+        this.colaboradorRepository = dataSource.getRepository(Colaborador);
     }
 
     async getAll() {
@@ -29,21 +29,25 @@ export default class AreaService {
     }
 
     async createArea(dataArea: CreateAreaSchemaDTO) {
-        const area = await this.getByNameArea(dataArea.nome);
-        const colaborador = await this.colaboradorService.getById(dataArea.id_responsavel);
+        const area = await this.areaRepository.findOneBy({ nome: dataArea.nome });
+        const colaborador = await this.colaboradorRepository.findOneBy({ id_colaborador: dataArea.id_responsavel });
         if (!colaborador) {
             throw new AppError("Colaborador não encontrado", 404);
         }
         if (area) {
             throw new AppError("Area já cadastrada", 409);
         }
-        const updates = Object.fromEntries(
-            Object.entries(dataArea).filter(([, value]) => value !== undefined)
-        ) as Partial<Area>;
+        const novaArea = this.areaRepository.create({
+            nome: dataArea.nome,
+            descricao: dataArea.descricao,
+            nivel_risco: dataArea.nivel_risco,
+            capacidade: dataArea.capacidade,
+            ativa: dataArea.ativa,
+            id_responsavel: colaborador,
+            registro_acessos: []
+        });
 
-        updates.id_responsavel = colaborador as Colaborador;
-
-        return await this.areaRepository.save(updates);
+        return await this.areaRepository.save(novaArea);
     }
 
     async updateArea(id: string, dataArea: UpdateAreaSchemaDTO) {

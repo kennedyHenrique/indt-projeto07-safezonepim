@@ -14,7 +14,7 @@ export class Area{
     nome!: string;
 
     @Column({type: 'varchar', nullable: true})
-    descricao!: string;
+    descricao!: string | null;
 
     @Column({type: 'enum', enum: NivelRisco})
     nivel_risco!: NivelRisco;

@@ -1,4 +1,4 @@
-import type { CreateAreaSchemaDTO } from '../dtos/CreateAreaSchemaDTO.js';
+import type { CreateAreaSchemaDTO } from '../dtos/createAreaSchemaDTO.js';
 import { AppError } from '../errors/appError.js';
 import AreaService from './../services/AreaService.js';
 import type { Request, Response } from 'express';

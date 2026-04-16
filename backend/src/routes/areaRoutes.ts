@@ -4,12 +4,12 @@ import AreaService from "../services/AreaService.js";
 import { ColaboradorService } from "../services/ColaboradorService.js";
 import { AppDataSource } from "../database/dataSource.js";
 import { validateBody } from "../middlewares/validateBody.js";
-import { createAreaSchemaDTO, updateAreaSchemaDTO } from "../dtos/CreateAreaSchemaDTO.js";
+import { createAreaSchemaDTO, updateAreaSchemaDTO } from "../dtos/createAreaSchemaDTO.js";
 
 const router = Router();
 
 const colaboradorService = new ColaboradorService(AppDataSource);
-const areaService = new AreaService(AppDataSource, colaboradorService);
+const areaService = new AreaService(AppDataSource);
 
 const areaController = new AreaController(areaService);
 
