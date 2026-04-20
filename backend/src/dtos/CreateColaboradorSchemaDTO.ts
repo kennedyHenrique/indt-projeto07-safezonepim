@@ -1,10 +1,11 @@
 import {z} from "zod";
+import { Cargo } from "../types/cargo.js";
 
 
 export const createColaboradorSchemaDTO = z.object({
     nome: z.string().trim().min(1).max(100),
     matricula: z.string().trim().length(8, "A matricula deve ter 8 caracteres").regex(/^\d+$/, "A matricula deve conter apenas numeros"),
-    cargo: z.string().trim().min(1),
+    cargo: z.enum(Cargo),
     setor: z.string().trim().min(1),
     ativo: z.boolean(),
     foto_url: z.url({

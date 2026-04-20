@@ -8,9 +8,7 @@ import { createAreaSchemaDTO, updateAreaSchemaDTO } from "../dtos/createAreaSche
 
 const router = Router();
 
-const colaboradorService = new ColaboradorService(AppDataSource);
 const areaService = new AreaService(AppDataSource);
-
 const areaController = new AreaController(areaService);
 
 router.get('/', areaController.getAll.bind(areaController));

@@ -1,6 +1,7 @@
 import { Column, CreateDateColumn, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Area } from "./Area.js";
 import { RegistroAcesso } from "./RegistroAcesso.js";
+import { Cargo } from "../types/cargo.js";
 
 
 
@@ -15,8 +16,8 @@ export class Colaborador{
     @Column({type: 'varchar', nullable: false, unique: true})
     matricula!: string;
 
-    @Column({type:'varchar', nullable:false})
-    cargo!: string;
+    @Column({type: 'enum', enum: Cargo, nullable:false})
+    cargo!: Cargo;
 
     @Column({type:'varchar', nullable:false})
     setor!: string;

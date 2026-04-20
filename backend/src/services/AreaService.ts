@@ -29,13 +29,13 @@ export default class AreaService {
     }
 
     async createArea(dataArea: CreateAreaSchemaDTO) {
-        const area = await this.areaRepository.findOneBy({ nome: dataArea.nome });
-        const colaborador = await this.colaboradorRepository.findOneBy({ id_colaborador: dataArea.id_responsavel });
-        if (!colaborador) {
-            throw new AppError("Colaborador não encontrado", 404);
-        }
+        const area = await this.getByNameArea(dataArea.nome);
         if (area) {
             throw new AppError("Area já cadastrada", 409);
+        }
+        const colaborador = await this.colaboradorRepository.findOne({where: {id_colaborador: dataArea.id_responsavel}});
+        if (!colaborador) {
+            throw new AppError("Colaborador não encontrado", 404);
         }
         const novaArea = this.areaRepository.create({
             nome: dataArea.nome,
