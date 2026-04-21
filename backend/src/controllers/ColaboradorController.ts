@@ -1,3 +1,4 @@
+import type { CreateColaboradorSchemaDTO } from "../dtos/CreateColaboradorSchemaDTO.js";
 import { AppError } from "../errors/appError.js";
 import type { ColaboradorService } from "../services/ColaboradorService.js";
 import type { Request, Response } from "express";
@@ -32,7 +33,7 @@ export default class ColaboradorController {
     }
 
     async create(req: Request, res: Response) {
-        const data = req.body;
+        const data = req.body as CreateColaboradorSchemaDTO;
         try{
             const colaborador = await this.colaboradorService.createColaborador(data);
             return res.status(201).json({
@@ -48,10 +49,23 @@ export default class ColaboradorController {
 
     async update(req: Request, res: Response) {
         const id: string = req.params.id as string;
-        const colaborador = await this.colaboradorService.updateColaborador(id, req.body);
+        const data = req.body as CreateColaboradorSchemaDTO;
+        const colaborador = await this.colaboradorService.updateColaborador(id, data);
         return res.status(200).json({
-            status: "sucess",
+            status: "success",
             data: colaborador
         });
+    }
+
+    async delete(req: Request, res: Response) {
+        const id: string = req.params.id as string;
+        try {
+            await this.colaboradorService.deleteColaborador(id);
+            return res.status(204).send();
+        } catch (error) {
+            if (error instanceof AppError) {
+                return res.status(error.statusCode).json({ message: error.message });
+            }
+        }
     }
 }

@@ -1,3 +1,4 @@
+import type { CreateRegistroAcessoSchemaDTO } from "../dtos/CreateRegistroAcessoSchemaDTO.js";
 import type RegistroAcessoService from "../services/RegistroAcessoService.js";
 import type { Request, Response } from "express";
 
@@ -31,7 +32,7 @@ export default class RegistroAcessoController {
     }
 
     async create(req: Request, res: Response) {
-        const data = req.body;
+        const data = req.body as CreateRegistroAcessoSchemaDTO;
         try{
             const registroAcesso = await this.registroAcessoService.createRegistroAcesso(data);
             return res.status(201).json({
@@ -39,6 +40,7 @@ export default class RegistroAcessoController {
                 data: registroAcesso
             });
         }catch(error){
+            console.log(error);
             return res.status(400).json({ message: "Erro ao criar registro de acesso" });
         }
     }

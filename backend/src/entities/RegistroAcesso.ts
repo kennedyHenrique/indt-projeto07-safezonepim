@@ -11,6 +11,9 @@ export class RegistroAcesso {
     @PrimaryGeneratedColumn("uuid")
     id_registro!: string;
 
+    @Column({type: "text", nullable: false, unique: true})
+    numero: string;
+
     @ManyToOne(()=> Colaborador, (id_colaborador)=>id_colaborador.registro_acessos)
     id_colaborador!: Colaborador;
 
@@ -27,7 +30,9 @@ export class RegistroAcesso {
     timestamp!: Date;
     
     @Column({type:'varchar', nullable: true})
-    observacao!: string;
+    observacao!: string | null;
 
-    //falta uma variavel registrado_por para saber quem fez o registro
+    @ManyToOne(()=> Colaborador, (colaborador) => colaborador.registrados_por)
+    registrado_por: Colaborador;
+
 }

@@ -5,6 +5,10 @@ import { Cargo } from "../types/cargo.js";
 export const createColaboradorSchemaDTO = z.object({
     nome: z.string().trim().min(1).max(100),
     matricula: z.string().trim().length(8, "A matricula deve ter 8 caracteres").regex(/^\d+$/, "A matricula deve conter apenas numeros"),
+    senha_hash: z.string().min(8)
+                .refine((s) => /[A-Z]/.test(s), "A senha deve conter pelo menos uma letra maiúscula")
+                .refine((s) => /[a-z]/.test(s), "A senha deve conter pelo menos uma letra minúscula")
+                .refine((s) => /[^A-Za-z0-9]/.test(s), { error: "Deve conter ao menos 1 caractere especial" }),
     cargo: z.enum(Cargo),
     setor: z.string().trim().min(1),
     ativo: z.boolean(),

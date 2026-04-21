@@ -9,6 +9,7 @@ export default class AreaService {
 
     private areaRepository: Repository<Area>;
     private colaboradorRepository: Repository<Colaborador>;
+    
     constructor(dataSource: DataSource) {
         this.areaRepository = dataSource.getRepository(Area);
         this.colaboradorRepository = dataSource.getRepository(Colaborador);

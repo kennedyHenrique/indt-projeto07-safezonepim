@@ -2,6 +2,7 @@ import { Column, CreateDateColumn, Entity, OneToMany, OneToOne, PrimaryGenerated
 import { Area } from "./Area.js";
 import { RegistroAcesso } from "./RegistroAcesso.js";
 import { Cargo } from "../types/cargo.js";
+import { Sessao } from "./Sessao.js";
 
 
 
@@ -15,6 +16,9 @@ export class Colaborador{
 
     @Column({type: 'varchar', nullable: false, unique: true})
     matricula!: string;
+
+    @Column({type: 'text', nullable: false, select: false})
+    senha_hash!: string ;
 
     @Column({type: 'enum', enum: Cargo, nullable:false})
     cargo!: Cargo;
@@ -37,5 +41,9 @@ export class Colaborador{
     @OneToMany(()=> RegistroAcesso, (registro)=> registro.id_colaborador)
     registro_acessos!: RegistroAcesso[];
 
+    @OneToMany(()=> RegistroAcesso, (registro) => registro.registrado_por)
+    registrados_por!: RegistroAcesso[];
 
+    @OneToMany(()=> Sessao, (s)=> s.colaborador)
+    sessoes!: Sessao[];
 }

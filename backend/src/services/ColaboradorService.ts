@@ -3,7 +3,8 @@ import { Colaborador } from "../entities/Colaborador.js";
 import { AppError } from "../errors/appError.js";
 import { error } from "node:console";
 import type { CreateColaboradorSchemaDTO, UpdateColaboradorSchemaDTO } from "../dtos/CreateColaboradorSchemaDTO.js";
-
+import { hash } from "bcryptjs";
+import { th } from "zod/locales";
 
 
 export class ColaboradorService {
@@ -27,7 +28,7 @@ export class ColaboradorService {
 
     async getByMatricula(matricula: string) {
         const colaborador = await this.colaboradorRepository.findOneBy({ matricula: matricula });
-    
+
         if (!colaborador) {
             throw new AppError("Colaborador nao encontrado", 404);
         }
@@ -43,16 +44,21 @@ export class ColaboradorService {
         return colaborador;
     }
 
-    async createColaborador (data: CreateColaboradorSchemaDTO) {
+    async createColaborador(data: CreateColaboradorSchemaDTO) {
         const colaborador = await this.colaboradorRepository.findOneBy({ matricula: data.matricula });
         if (colaborador) {
             throw new AppError("Colaborador já cadastrado", 409);
         }
-        const updates = Object.fromEntries(
-            Object.entries(data).filter(([, value]) => value !== undefined)
-        ) as Partial<Colaborador>;
-        const novoColaborador = await this.colaboradorRepository.create(updates);
-        return await this.colaboradorRepository.save(novoColaborador);
+        const senha_hash = await hash(data.senha_hash, 10);
+        const areasMapped = data.areas?.map(id_area => ({ id_area: id_area }));
+        const novoColaborador = this.colaboradorRepository.create({
+            ...data,
+            senha_hash,
+            areas: areasMapped,
+            registro_acessos: data.registro_acessos?.map(id_area => ({ id_registro: id_area }))
+        });
+        const salvo = await this.colaboradorRepository.save(novoColaborador);
+        return salvo;
     }
 
     async updateColaborador(id: string, dataColaborador: UpdateColaboradorSchemaDTO) {
@@ -73,6 +79,14 @@ export class ColaboradorService {
 
         const colaboradorAtualizado = this.colaboradorRepository.merge(colaborador, updates);
         return await this.colaboradorRepository.save(colaboradorAtualizado);
+    }
+
+    async deleteColaborador(id: string) {
+        const result = await this.colaboradorRepository.delete(id);
+
+        if (result.affected === 0) {
+            throw new AppError("Colaborador não encontrado", 404);
+        }
     }
 
 }
