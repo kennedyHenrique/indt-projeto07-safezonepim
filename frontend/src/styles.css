@@ -1,0 +1,23 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import 'tailwindcss';
+
+
+@layer base {
+    html, body{
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    app-root{
+        display: block;
+        height: 100%; 
+    }
+    body{
+        font-family: 'Inter', sans-serif;
+        font-size: 0.875rem;
+        line-height: 1.6;
+        background-color: var(--obsidian-base);
+        color: var(--on--surface);
+    }
+}
