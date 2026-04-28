@@ -1,0 +1,106 @@
+<nav class="fixed top-0 w-full border-b border-slate-200 bg-white flex justify-between items-center px-8 h-16 w-full z-50">
+  <div class="text-xl font-bold text-[#002B5C] flex items-center gap-2">
+    <div class="w-8 h-8 bg-[#001736] rounded flex items-center justify-center">
+      <span class="material-symbols-outlined text-white text-xl">verified_user</span>
+    </div>
+    SecureAccess
+  </div>
+  <div class="hidden md:flex items-center gap-6">
+    <a class="text-slate-600 hover:bg-slate-50 transition-colors px-3 py-2 rounded text-sm font-medium" href="#">Help</a>
+    <a class="text-slate-600 hover:bg-slate-50 transition-colors px-3 py-2 rounded text-sm font-medium" href="#">Support</a>
+    <a class="text-slate-600 hover:bg-slate-50 transition-colors px-3 py-2 rounded text-sm font-medium" href="#">Contact</a>
+    <button class="bg-[#001736] text-white px-6 py-2 rounded-lg font-bold active:scale-95 duration-150 text-sm">Register</button>
+  </div>
+</nav>
+
+<main class="flex-grow flex items-center justify-center pt-24 pb-12 px-4 bg-[#f8f9ff] min-h-screen">
+  <div class="w-full max-w-[1200px] lg:h-[700px] flex flex-col lg:flex-row overflow-hidden rounded-xl shadow-lg border border-slate-200 bg-white">
+    
+    <div class="hidden lg:flex w-1/2 relative bg-[#002b5c] items-center justify-center p-12 text-white overflow-hidden">
+      <div class="absolute inset-0 opacity-40">
+        <img alt="Cybersecurity" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEl89vDsh89p3D6E4zUFq5m_rbQ9yqXn_Nzi83zydIU_t-Pmd3a-oZkCM90noYgY7IJt_Dj33Tq-5PF26lGDgkq8GbS9Hh9w7Aas71eq94Ox7B_6V4WzkMYQR4RSFSFBNp4ppJ7a3EQHEnkOpHCDQvKZQYHgUR7aNg5hoZ_CSon9NsI965SIjqGpXd7JeETkUyJyDT0wBxnJ1CUXq5j7aA831j0DXZVz0V6a91mokVCn3hIK69OPXe6uDO-53PJI9VhWitvinsboc" referrerpolicy="no-referrer" />
+      </div>
+      <div class="relative z-10 space-y-6">
+        <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/20">
+          <span class="material-symbols-outlined text-sm">verified_user</span>
+          <span class="text-xs font-semibold tracking-wider">ISO 27001 Certified Environment</span>
+        </div>
+        <h1 class="text-4xl font-bold leading-tight">Next Generation Secure Gateway.</h1>
+        <p class="text-lg text-slate-300 max-w-md font-light">
+          Access your corporate dashboard with military-grade encryption and multi-factor authentication protocols.
+        </p>
+        <div class="grid grid-cols-2 gap-4 mt-8">
+          <div class="p-4 bg-white/5 rounded-lg border border-white/10">
+            <span class="material-symbols-outlined mb-2">lock</span>
+            <p class="text-xs font-semibold uppercase tracking-wider">AES-256 Bit</p>
+          </div>
+          <div class="p-4 bg-white/5 rounded-lg border border-white/10">
+            <span class="material-symbols-outlined mb-2">history</span>
+            <p class="text-xs font-semibold uppercase tracking-wider">Audit Logged</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="w-full lg:w-1/2 flex flex-col p-8 md:p-14">
+      <div class="mb-10">
+        <h2 class="text-3xl font-bold text-[#001736] mb-2 uppercase tracking-tight">Acesso Corporativo</h2>
+        <p class="text-slate-500 text-sm">Utilize suas credenciais institucionais para prosseguir.</p>
+      </div>
+
+      <form (submit)="onSubmit()" class="space-y-6">
+        <div class="space-y-2">
+          <label class="block text-xs font-bold uppercase tracking-widest text-slate-500" for="matricula">Matrícula</label>
+          <div class="relative">
+            <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">badge</span>
+            <input class="w-full pl-12 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-[#001736] transition-all text-sm" id="matricula" name="matricula" [(ngModel)]="matricula" placeholder="000.000-0" required type="text" />
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <div class="flex justify-between items-center">
+            <label class="block text-xs font-bold uppercase tracking-widest text-slate-500" for="password">Senha</label>
+            <a class="text-xs text-[#002b5c] font-bold hover:underline" href="#">Esqueceu a senha?</a>
+          </div>
+          <div class="relative">
+            <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400">lock</span>
+            <input class="w-full pl-12 pr-12 py-3.5 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-[#001736] transition-all text-sm" id="password" name="password" [(ngModel)]="password" type="password" required />
+          </div>
+          @if (error()) {
+          <p class="text-red-600 text-[10px] font-bold uppercase tracking-wider mt-1 flex items-center gap-1">
+            <span class="material-symbols-outlined text-[14px]">error</span>
+            {{ error() }}
+          </p>
+          }
+        </div>
+
+        <div class="flex items-center">
+          <input class="w-4 h-4 text-[#001736] border-slate-300 rounded focus:ring-[#001736]" id="remember" type="checkbox"/>
+          <label class="ml-2 text-xs font-bold text-slate-500 cursor-pointer select-none uppercase tracking-wider" for="remember">Manter conectado</label>
+        </div>
+
+        <button [disabled]="loading()" class="w-full py-4 rounded-lg font-bold flex items-center justify-center gap-3 transition-all duration-200 shadow-md" [class.bg-slate-100]="loading()" [class.text-slate-400]="loading()" [class.bg-[#001736]]="!loading()" [class.text-white]="!loading()" type="submit">
+          @if (loading()) {
+          <span class="w-5 h-5 border-2 border-slate-400 border-t-transparent rounded-full animate-spin"></span>
+          }
+          {{ loading() ? 'Entrando...' : 'Acessar Sistema' }}
+        </button>
+      </form>
+
+      <div class="mt-auto pt-10 grid grid-cols-3 gap-4 border-t border-slate-100">
+        <div class="flex flex-col items-center text-center group cursor-pointer">
+          <span class="material-symbols-outlined text-slate-400 group-hover:text-[#001736] mb-1">help_center</span>
+          <span class="text-[10px] font-bold uppercase text-slate-500">Central de Ajuda</span>
+        </div>
+        <div class="flex flex-col items-center text-center group cursor-pointer">
+          <span class="material-symbols-outlined text-slate-400 group-hover:text-[#001736] mb-1">security</span>
+          <span class="text-[10px] font-bold uppercase text-slate-500">Políticas TI</span>
+        </div>
+        <div class="flex flex-col items-center text-center group cursor-pointer">
+          <span class="material-symbols-outlined text-slate-400 group-hover:text-[#001736] mb-1">support_agent</span>
+          <span class="text-[10px] font-bold uppercase text-slate-500">Suporte 24h</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
